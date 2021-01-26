@@ -103,6 +103,21 @@ class Gateway extends AbstractGateway
         return $this->setParameter('idempotencyKey', $value);
     }
 
+    public function authorize(array $parameters = [])
+    {
+        return $this->createRequest('\Omnipay\Square\Message\AuthorizeRequest', $parameters);
+    }
+
+    public function capture(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Square\Message\CaptureRequest', $parameters);
+    }
+
+    public function void(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Square\Message\VoidRequest', $parameters);
+    }
+
     /**
      * Purchase request functions
      * @param array $parameters
@@ -193,5 +208,10 @@ class Gateway extends AbstractGateway
     public function refund(array $parameters = [])
     {
         return $this->createRequest('\Omnipay\Square\Message\RefundRequest', $parameters);
+    }
+
+    public function status(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Square\Message\InquireRequest', $parameters);
     }
 }
