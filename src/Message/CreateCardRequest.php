@@ -63,9 +63,16 @@ class CreateCardRequest extends AbstractRequest
 
     public function sendData($data)
     {
-        SquareConnect\Configuration::getDefaultConfiguration()->setAccessToken($this->getAccessToken());
+        $defaultApiConfig = new \SquareConnect\Configuration();
+        $defaultApiConfig->setAccessToken($this->getAccessToken());
 
-        $api_instance = new SquareConnect\Api\CustomersApi();
+        if($this->getParameter('testMode')) {
+            $defaultApiConfig->setHost("https://connect.squareupsandbox.com");
+        }
+
+        $defaultApiClient = new \SquareConnect\ApiClient($defaultApiConfig);
+
+        $api_instance = new SquareConnect\Api\CustomersApi($defaultApiClient);
 
         try {
             $result = $api_instance->createCustomerCard($data['customer_id'], $data);
